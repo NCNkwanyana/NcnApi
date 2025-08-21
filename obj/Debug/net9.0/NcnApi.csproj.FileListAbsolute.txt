@@ -154,3 +154,4 @@ C:\DataB\NcnApi\bin\Debug\net9.0\runtimes\win-arm\native\e_sqlite3.dll
 C:\DataB\NcnApi\bin\Debug\net9.0\runtimes\win-arm64\native\e_sqlite3.dll
 C:\DataB\NcnApi\bin\Debug\net9.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\DataB\NcnApi\bin\Debug\net9.0\runtimes\win-x86\native\e_sqlite3.dll
+C:\DataB\NcnApi\obj\Debug\net9.0\NcnApi.sourcelink.json

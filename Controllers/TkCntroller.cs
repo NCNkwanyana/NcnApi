@@ -36,15 +36,15 @@ namespace NcnApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, NomTask updatedTask)
+        public async Task<ActionResult> Update(int id, NomTask updated)
         {
             var task = await _context.Tasks.FindAsync(id);
             if (task == null) return NotFound();
 
-            task.Title = updatedTask.Title;
-            task.Description = updatedTask.Description;
-            task.AssignedId = updatedTask.AssignedId;
-            task.DueDate = updatedTask.DueDate;
+            task.Title = updated.Title;
+            task.Description = updated.Description;
+            task.AssignedId = updated.AssignedId;
+            task.DueDate = updated.DueDate;
 
             await _context.SaveChangesAsync();
             return NoContent();
@@ -67,37 +67,38 @@ namespace NcnApi.Controllers
             var today = DateTime.Today;
             var expiredTasks = await _context.Tasks
                 .Where(t => t.DueDate < today)
-                .ToListAsync();
-            return expiredTasks;
+                .ToListAsync();return expiredTasks;
+
         }
 
         [HttpGet("active")]
         public async Task<ActionResult<List<NomTask>>> GetActiveTasks()
         {
             var today = DateTime.Today;
-            var activeTasks = await _context.Tasks
+            return await _context.Tasks
                 .Where(t => t.DueDate >= today)
                 .ToListAsync();
-            return activeTasks;
+            
         }
 
         [HttpGet("date/{date}")]
         public async Task<ActionResult<List<NomTask>>> GetTasksByDate(DateTime date)
         {
-            var tasksByDate = await _context.Tasks
-                .Where(t => t.DueDate.Date == date.Date)
+            var d = date.Date;
+                return await _context.Tasks
+                .Where(t => t.DueDate.Date == d)
                 .ToListAsync();
-            return tasksByDate;
+          
         }
 
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<List<NomTask>>>
 GetTasksByUser(string userId)
         {
-            var taskByUser = await _context.Tasks
-            .Where(t => (t.AssignedId ??"")==userId)
+          return await _context.Tasks
+            .Where(t => t.AssignedId != null && t.AssignedId.Equals(userId))
             .ToListAsync()
-            ; return tasksByUser;
+            ; 
         
     }      
     }
