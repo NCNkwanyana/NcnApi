@@ -1,5 +1,5 @@
 #Assessmenet Tasks API 
-An ASP.NET CORE Wen API for task and user management. Tasks can be filtered by assigned user or due date and users. Tasks can be created , read, patch and deleted.
+An ASP.NET CORE Wen API for task and user management. Tasks can be filtered by assigned user or due date and users. Tasks can be created , read, patch and deleted.JWt authentication is implemeted for security endpoints.
 
 #Installation 
 1.Check whether you have ".NET 9 SDK" installed in ypur PC.
@@ -8,13 +8,24 @@ An ASP.NET CORE Wen API for task and user management. Tasks can be filtered by a
 4.Restore dependencies : dotnet restore
 5. To create SQLite database , applu databse migrations: dotnet ef dtabase update
 
+## Feaatures
+1.CRUD operations for Users & Tasks
+2.Task filtering:-Expired tasks
+                 -Active tasks
+                 -Tasks by date
+                 -Tasks by Assigned user
+
 #Running the API
  In the project folder, execute the following command: dotnet run
  *It will default and start at : http://localhost:5203
  *To test the endpoints , open Swagger  at :  http://localhost:5203/swagger
+ *Once Swagger is open , Use the login endpoint to get your Jwt token: 'username:"put your username"'
+                                                                       'password:"put your password"
+  if successful you will recieve a response with your Jwt token.
+ *Copy the token select Authorize in swagger then paste it : Bearer "paste your token".
+ *All endpoints (usr/tk) are protected  and require JWT tokens to access.
 
  ## API Endpoints
-
  ### TK
  -'GET/api/tk'- Get all tasks
  -'GET/api/tk'- Get tasks by ID
@@ -35,3 +46,5 @@ An ASP.NET CORE Wen API for task and user management. Tasks can be filtered by a
 
 ##Database
 Entity Framework Core and SQLite are used in this project. The 'UsersTasks.db' database file generates automatically within the project folder. CRUD activities are done using EF Core.
+
+By NCNkwanyana

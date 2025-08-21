@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NcnApi.Models;
 using NcnApi.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NcnApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UsrController : ControllerBase
