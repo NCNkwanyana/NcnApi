@@ -2,14 +2,17 @@
 An ASP.NET CORE Wen API for task and user management. Tasks can be filtered by assigned user or due date and users. Tasks can be created , read, patch and deleted.JWt authentication is implemeted for security endpoints.
 
 #Installation 
-1.Check whether you have ".NET 9 SDK" installed in ypur PC.
+1.Check whether you have ".NET 9 SDK" installed in ypur PC &
+-SQL server or SQLite/EF core
+-Git
 2.Copy this repository: http://github.com/NCNkwanyana/NcnApi.git
 3.Open the project folder : cd NcnApi
 4.Restore dependencies : dotnet restore
 5. To create SQLite database , applu databse migrations: dotnet ef dtabase update
 
 ## Feaatures
-1.CRUD operations for Users & Tasks
+1.User registration  and Login
+CRUD operations for Users & Tasks
 2.Task filtering:-Expired tasks
                  -Active tasks
                  -Tasks by date
@@ -19,8 +22,9 @@ An ASP.NET CORE Wen API for task and user management. Tasks can be filtered by a
  In the project folder, execute the following command: dotnet run
  *It will default and start at : http://localhost:5203
  *To test the endpoints , open Swagger  at :  http://localhost:5203/swagger
- *Once Swagger is open , Use the login endpoint to get your Jwt token: 'username:"put your username"'
-                                                                       'password:"put your password"
+ *Once Swagger is open , use Registration endpoint to register user in the system: Username:"" , email: "", password:""
+ *Use the login endpoint to get your Jwt token: email:"put your email that you registered with",
+'password:"put your password that you registered with"
   if successful you will recieve a response with your Jwt token.
  *Copy the token select Authorize in swagger then paste it : Bearer "paste your token".
  *All endpoints (usr/tk) are protected  and require JWT tokens to access.
