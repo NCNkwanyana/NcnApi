@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NcnApi.Models;
-using NcnApi.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using NcnApi.Data;
+using NcnApi.Models;
 
 namespace NcnApi.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize] // JWT required for all endpoints
     public class TkController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -18,17 +18,23 @@ namespace NcnApi.Controllers
             _context = context;
         }
 
+        // GET: api/tk
         [HttpGet]
-        public async Task<ActionResult<List<NomTask>>> GetAll() => await _context.Tasks.ToListAsync();
+        public async Task<ActionResult<List<NomTask>>> GetAll()
+        {
+            var tasks = await _context.Tasks.ToListAsync();
+            return tasks;
+        }
 
+        // GET: api/tk/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<NomTask>> GetById(int id)
         {
             var task = await _context.Tasks.FindAsync(id);
-            if (task == null) return NotFound();
-            return task;
+            return task is null ? NotFound() : task;
         }
 
+        // POST: api/tk
         [HttpPost]
         public async Task<ActionResult<NomTask>> Create(NomTask task)
         {
@@ -37,72 +43,74 @@ namespace NcnApi.Controllers
             return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
         }
 
+        // PUT: api/tk/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, NomTask updated)
+        public async Task<ActionResult> Update(int id, NomTask updatedTask)
         {
             var task = await _context.Tasks.FindAsync(id);
-            if (task == null) return NotFound();
+            if (task is null) return NotFound();
 
-            task.Title = updated.Title;
-            task.Description = updated.Description;
-            task.AssignedId = updated.AssignedId;
-            task.DueDate = updated.DueDate;
+            task.Title = updatedTask.Title;
+            task.Description = updatedTask.Description;
+            task.AssignedId = updatedTask.AssignedId;
+            task.DueDate = updatedTask.DueDate;
 
             await _context.SaveChangesAsync();
             return NoContent();
         }
 
+        // DELETE: api/tk/{id}
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             var task = await _context.Tasks.FindAsync(id);
-            if (task == null) return NotFound();
+            if (task is null) return NotFound();
 
             _context.Tasks.Remove(task);
             await _context.SaveChangesAsync();
             return NoContent();
         }
 
+        // GET: api/tk/expired
         [HttpGet("expired")]
         public async Task<ActionResult<List<NomTask>>> GetExpiredTasks()
         {
             var today = DateTime.Today;
             var expiredTasks = await _context.Tasks
                 .Where(t => t.DueDate < today)
-                .ToListAsync();return expiredTasks;
-
+                .ToListAsync();
+            return expiredTasks;
         }
 
+        // GET: api/tk/active
         [HttpGet("active")]
         public async Task<ActionResult<List<NomTask>>> GetActiveTasks()
         {
             var today = DateTime.Today;
-            return await _context.Tasks
+            var activeTasks = await _context.Tasks
                 .Where(t => t.DueDate >= today)
                 .ToListAsync();
-            
+            return activeTasks;
         }
 
+        // GET: api/tk/date/{date}
         [HttpGet("date/{date}")]
         public async Task<ActionResult<List<NomTask>>> GetTasksByDate(DateTime date)
         {
-            var d = date.Date;
-                return await _context.Tasks
-                .Where(t => t.DueDate.Date == d)
+            var tasksByDate = await _context.Tasks
+                .Where(t => t.DueDate.Date == date.Date)
                 .ToListAsync();
-          
+            return tasksByDate;
         }
 
+        // GET: api/tk/user/{userId}
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<List<NomTask>>>
-GetTasksByUser(string userId)
+        public async Task<ActionResult<List<NomTask>>> GetTasksByUser(int userId)
         {
-          return await _context.Tasks
-            .Where(t => t.AssignedId != null && t.AssignedId.Equals(userId))
-            .ToListAsync()
-            ; 
-        
-    }      
+            var tasksByUser = await _context.Tasks
+                .Where(t => t.AssignedId == userId.ToString())
+                .ToListAsync();
+            return tasksByUser;
+        }
     }
 }
-

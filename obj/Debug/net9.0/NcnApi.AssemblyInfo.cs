@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NcnApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+73dec0e1c0068748a472e01784c0a5b67d11ebfa")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8d926d645db52f54ea363f5fea7b691883d17650")]
 [assembly: System.Reflection.AssemblyProductAttribute("NcnApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NcnApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
